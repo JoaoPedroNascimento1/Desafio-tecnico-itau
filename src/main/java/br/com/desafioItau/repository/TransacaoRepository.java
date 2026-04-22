@@ -4,6 +4,8 @@ import br.com.desafioItau.dto.mapper.TransacaoMapper;
 import br.com.desafioItau.dto.request.TransacaoRequest;
 import br.com.desafioItau.dto.response.TransacaoResponse;
 import br.com.desafioItau.entity.Estatistica;
+import br.com.desafioItau.service.TransacaoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;
@@ -11,11 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class TransacaoRepository {
 
+  private final TransacaoService transacaoService;
   List<TransacaoResponse> transacoes = new ArrayList<>();
 
   public void salvarDados(TransacaoRequest transacaoRequest){
+    transacaoService.validar(transacaoRequest);
     transacoes.add(TransacaoMapper.toTransacaoResponse(TransacaoMapper.toTransacao(transacaoRequest)));
   }
 

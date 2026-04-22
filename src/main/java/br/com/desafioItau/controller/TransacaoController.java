@@ -22,18 +22,10 @@ public class TransacaoController {
 
   @PostMapping
   public ResponseEntity<TransacaoResponse> transacao(@Valid @RequestBody TransacaoRequest transacaoRequest){
-    try{
       transacaoService.validar(transacaoRequest);
       transacaoRepository.salvarDados(transacaoRequest);
       log.info("Transacao concluida com sucesso");
       return ResponseEntity.status(HttpStatus.CREATED).build();
-    } catch (IllegalArgumentException e){
-      log.error(e.getMessage());
-      return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
-    } catch (RuntimeException e){
-      log.error(e.getMessage());
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
   }
 
   @DeleteMapping
