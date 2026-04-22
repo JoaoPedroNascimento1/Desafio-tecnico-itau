@@ -4,6 +4,7 @@ import br.com.desafioItau.dto.request.TransacaoRequest;
 import br.com.desafioItau.dto.response.TransacaoResponse;
 import br.com.desafioItau.repository.TransacaoRepository;
 import br.com.desafioItau.service.TransacaoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class TransacaoController {
   private final TransacaoRepository transacaoRepository;
 
   @PostMapping
-  public ResponseEntity<TransacaoResponse> transacao(@RequestBody TransacaoRequest transacaoRequest){
+  public ResponseEntity<TransacaoResponse> transacao(@Valid @RequestBody TransacaoRequest transacaoRequest){
     try{
       transacaoService.validar(transacaoRequest);
       transacaoRepository.salvarDados(transacaoRequest);
@@ -33,7 +34,7 @@ public class TransacaoController {
   @DeleteMapping
   public ResponseEntity<Void> deletarDados(){
     transacaoRepository.deletarDados();
-    return ResponseEntity.noContent().build();
+    return ResponseEntity.ok().build();
   }
 
 }
